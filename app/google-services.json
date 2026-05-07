@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "685138593944",
+    "project_id": "kurahubke-35a86",
+    "storage_bucket": "kurahubke-35a86.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:685138593944:android:f2354d02862d3b189128ed",
+        "android_client_info": {
+          "package_name": "com.moseswn.kurahubke"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDs2vxMCll9U9jxnYXXDlxuSJUjwIszA9U"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
