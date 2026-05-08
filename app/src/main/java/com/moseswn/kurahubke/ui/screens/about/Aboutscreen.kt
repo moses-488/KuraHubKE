@@ -1,4 +1,4 @@
-package com.moseswn.kurahubke.ui.Screens.faqs
+package com.moseswn.kurahubke.ui.screens.about
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -9,7 +9,7 @@ import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun FaqsScreen(navController: NavController){
+fun AboutScreen(navController: NavController){
 
     Column(modifier = Modifier.fillMaxSize()) {
 
@@ -39,6 +39,6 @@ fun FaqsScreen(navController: NavController){
 
 @Composable
 @Preview(showBackground = true)
-fun FaqsScreenPreview(){
-    FaqsScreen(rememberNavController())
+fun AboutScreenPreview(){
+    AboutScreen(rememberNavController())
 }

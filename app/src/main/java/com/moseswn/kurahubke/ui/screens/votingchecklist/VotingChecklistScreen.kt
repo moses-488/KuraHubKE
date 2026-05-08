@@ -1,4 +1,4 @@
-package com.moseswn.kurahubke.ui.Screens.votingchecklist
+package com.moseswn.kurahubke.ui.screens.votingchecklist
 
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize

@@ -1,5 +1,4 @@
-package com.moseswn.kurahubke.ui.Screens.splash
-import android.window.SplashScreen
+package com.moseswn.kurahubke.ui.screens.splash
 import androidx.compose.animation.core.FastOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween

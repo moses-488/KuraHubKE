@@ -6,15 +6,14 @@ import androidx.navigation.NavHostController
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.moseswn.kurahubke.ui.Screens.OnboardingScreen.OnboardingScreen
-import com.moseswn.kurahubke.ui.Screens.about.AboutScreen
-import com.moseswn.kurahubke.ui.Screens.faqs.FaqsScreen
-import com.moseswn.kurahubke.ui.Screens.home.HomeScreen
-import com.moseswn.kurahubke.ui.Screens.pollingfinder.PollingFinderScreen
-import com.moseswn.kurahubke.ui.Screens.splash.SplashScreen
-import com.moseswn.kurahubke.ui.Screens.timeline.TimelineScreen
-import com.moseswn.kurahubke.ui.Screens.votingchecklist.VotingCheckinglistScreen
-import java.sql.Time
+import com.moseswn.kurahubke.ui.screens.OnboardingScreen.OnboardingScreen
+import com.moseswn.kurahubke.ui.screens.about.AboutScreen
+import com.moseswn.kurahubke.ui.screens.auth.SignupScreen
+import com.moseswn.kurahubke.ui.screens.faqs.FAQScreen
+import com.moseswn.kurahubke.ui.screens.home.HomeScreen
+import com.moseswn.kurahubke.ui.screens.splash.SplashScreen
+import com.moseswn.kurahubke.ui.screens.timeline.TimelineScreen
+import com.moseswn.kurahubke.ui.screens.votingchecklist.VotingCheckinglistScreen
 
 @Composable
 fun AppNavHost(
@@ -41,13 +40,9 @@ fun AppNavHost(
             TimelineScreen(navController)
 
         }
-        composable(ROUT_POLLINGFINDER) {
-            PollingFinderScreen(navController)
 
-
-        }
         composable(ROUT_FAQS) {
-            FaqsScreen(navController)
+            FAQScreen(navController)
 
 
         }
@@ -60,7 +55,15 @@ fun AppNavHost(
 
 
     }
+        composable(ROUT_SIGNUP) {
+            SignupScreen(navController)
 
 
 
-}}
+        }
+
+
+
+
+
+    }}
