@@ -1,4 +1,4 @@
-package com.moseswn.kurahubke.ui.Screens.auth
+package com.moseswn.kurahubke.ui.screens.auth
 
 import android.widget.Toast
 import androidx.compose.foundation.background
@@ -32,8 +32,6 @@ fun LoginScreen(
     val email = remember { mutableStateOf("") }
     val password = remember { mutableStateOf("") }
     val isLoading = remember { mutableStateOf(false) }
-
-    val auth = FirebaseAuth.getInstance()
 
     Box(
         modifier = Modifier
@@ -119,6 +117,8 @@ fun LoginScreen(
                     }
 
                     isLoading.value = true
+                    
+                    val auth = FirebaseAuth.getInstance() // Initialized inside onClick to fix Preview crash
 
                     auth.signInWithEmailAndPassword(
                         email.value,

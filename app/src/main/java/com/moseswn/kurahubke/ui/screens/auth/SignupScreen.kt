@@ -33,9 +33,6 @@ fun SignupScreen(navController: NavController) {
     val password = remember { mutableStateOf("") }
     val isLoading = remember { mutableStateOf(false) }
 
-    val auth = FirebaseAuth.getInstance()
-    val database = FirebaseDatabase.getInstance().reference
-
     Box(
         modifier = Modifier
             .fillMaxSize()
@@ -119,6 +116,10 @@ fun SignupScreen(navController: NavController) {
                     }
 
                     isLoading.value = true
+
+                    // Initialize Firebase inside the click handler to avoid Preview render issues
+                    val auth = FirebaseAuth.getInstance()
+                    val database = FirebaseDatabase.getInstance().reference
 
                     auth.createUserWithEmailAndPassword(
                         email.value,
