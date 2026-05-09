@@ -54,8 +54,8 @@ dependencies {
     implementation(libs.firebase.database)
     
     // Google Maps
-    implementation(libs.google.maps.compose)
-    implementation(libs.google.play.services.maps)
+    implementation(libs.maps.compose)
+    implementation(libs.play.services.maps)
 
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)

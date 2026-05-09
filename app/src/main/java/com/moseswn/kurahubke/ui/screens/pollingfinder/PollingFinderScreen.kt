@@ -77,7 +77,7 @@ fun PollingMapScreen(navController: NavController) {
     var search by remember { mutableStateOf("") }
     var loading by remember { mutableStateOf(true) }
 
-    // Corrected LatLng import and usage
+    // Simulated user GPS (Nairobi)
     val userLocation = LatLng(-1.286389, 36.817223)
 
     val stations = remember { IEBCMockApi.getStations() }
@@ -88,7 +88,6 @@ fun PollingMapScreen(navController: NavController) {
                 it.code.contains(search, true)
     }
 
-    // Added missing imports for rememberCameraPositionState and CameraPosition
     val cameraPositionState = rememberCameraPositionState {
         position = CameraPosition.fromLatLngZoom(userLocation, 11f)
     }
@@ -146,7 +145,6 @@ fun PollingMapScreen(navController: NavController) {
 
             /* ---------------- MAP ---------------- */
 
-            // Added missing GoogleMap import
             GoogleMap(
                 modifier = Modifier
                     .fillMaxWidth()
@@ -155,7 +153,6 @@ fun PollingMapScreen(navController: NavController) {
             ) {
 
                 // USER LOCATION
-                // Added missing Marker and MarkerState imports
                 Marker(
                     state = MarkerState(position = userLocation),
                     title = "You are here",
@@ -164,6 +161,7 @@ fun PollingMapScreen(navController: NavController) {
 
                 // POLLING STATIONS
                 filtered.forEach { station ->
+
                     Marker(
                         state = MarkerState(LatLng(station.lat, station.lng)),
                         title = station.name,
