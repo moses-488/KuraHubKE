@@ -23,6 +23,8 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.moseswn.kurahubke.navigation.ROUT_POLLINGFINDER
+import com.moseswn.kurahubke.navigation.ROUT_TIMELINE
 
 // ---------------- DATA ----------------
 data class ChecklistItem(
@@ -83,7 +85,7 @@ fun ChecklistScreen(navController: NavController) {
                         shape = CircleShape,
                         color = Color.White.copy(alpha = 0.12f)
                     ) {
-                        IconButton(onClick = { navController.popBackStack() }) {
+                        IconButton(onClick = { navController.navigate(ROUT_POLLINGFINDER) }) {
                             Icon(
                                 imageVector = Icons.Default.ArrowBack,
                                 contentDescription = "Back",

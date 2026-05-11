@@ -223,7 +223,7 @@ fun OnboardingScreen(
 
                 Button(
                     onClick = {
-                        navController.navigate("signup")
+                        navController.navigate(ROUT_SIGNUP)
                     },
 
                     modifier = Modifier

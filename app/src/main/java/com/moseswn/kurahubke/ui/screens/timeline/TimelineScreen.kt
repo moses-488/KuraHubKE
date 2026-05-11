@@ -60,6 +60,7 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
+import com.moseswn.kurahubke.navigation.ROUT_CHECKLIST
 import kotlinx.coroutines.launch
 
 data class TimelineEvent(
@@ -198,7 +199,7 @@ fun TimelineScreen(
 
                         IconButton(
                             onClick = {
-                                navController.popBackStack()
+                                navController.navigate(ROUT_CHECKLIST)
                             }
                         ) {
 

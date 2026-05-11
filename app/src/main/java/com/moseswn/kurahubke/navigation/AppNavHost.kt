@@ -9,11 +9,12 @@ import androidx.navigation.compose.rememberNavController
 import com.moseswn.kurahubke.ui.screens.OnboardingScreen.OnboardingScreen
 import com.moseswn.kurahubke.ui.screens.about.AboutScreen
 import com.moseswn.kurahubke.ui.screens.auth.SignupScreen
+import com.moseswn.kurahubke.ui.screens.checklist.ChecklistScreen
 import com.moseswn.kurahubke.ui.screens.faqs.FAQScreen
 import com.moseswn.kurahubke.ui.screens.home.HomeScreen
+import com.moseswn.kurahubke.ui.screens.notices.NoticesScreen
 import com.moseswn.kurahubke.ui.screens.splash.SplashScreen
 import com.moseswn.kurahubke.ui.screens.timeline.TimelineScreen
-import com.moseswn.kurahubke.ui.screens.votingchecklist.VotingCheckinglistScreen
 
 @Composable
 fun AppNavHost(
@@ -21,7 +22,6 @@ fun AppNavHost(
     navController: NavHostController = rememberNavController(),
     startDestination: String = ROUT_SPLASH
 ) {
-
     NavHost(
         navController = navController,
         startDestination = startDestination,
@@ -38,32 +38,22 @@ fun AppNavHost(
         }
         composable(ROUT_TIMELINE) {
             TimelineScreen(navController)
-
         }
-
         composable(ROUT_FAQS) {
             FAQScreen(navController)
-
-
         }
-        composable(ROUT_VOTINGCHECKINGLIST) {
-            VotingCheckinglistScreen(navController)
+        composable(ROUT_CHECKLIST) {
+            ChecklistScreen(navController)
         }
         composable(ROUT_ONBOARDING) {
             OnboardingScreen(navController)
-
-
-
-    }
+        }
         composable(ROUT_SIGNUP) {
             SignupScreen(navController)
-
-
-
         }
-
-
-
-
-
-    }}
+        composable(ROUT_NOTICES) {
+            // Fixed: Use correct casing for NoticesScreen and added import
+            NoticesScreen(navController)
+        }
+    }
+}

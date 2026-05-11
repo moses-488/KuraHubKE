@@ -120,7 +120,7 @@ fun PollingMapScreen(navController: NavController) {
                     shape = CircleShape,
                     color = Color.White.copy(alpha = 0.12f)
                 ) {
-                    IconButton(onClick = { navController.popBackStack() }) {
+                    IconButton(onClick = { navController.navigate(ROUT_NOTICES) }) {
                         Icon(Icons.Default.ArrowBack, null, tint = Color.White)
                     }
                 }
