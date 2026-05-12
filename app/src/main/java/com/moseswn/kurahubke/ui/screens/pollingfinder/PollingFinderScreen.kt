@@ -1,4 +1,4 @@
-package com.moseswn.kurahubke.ui.screens.polling
+package com.moseswn.kurahubke.ui.screens.pollingfinder
 
 import androidx.compose.animation.AnimatedVisibility
 import androidx.compose.animation.fadeIn
@@ -10,7 +10,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.ArrowBack
+import androidx.compose.material.icons.automirrored.filled.ArrowBack
 import androidx.compose.material.icons.filled.LocationOn
 import androidx.compose.material.icons.filled.Search
 import androidx.compose.material3.*
@@ -28,6 +28,7 @@ import androidx.navigation.compose.rememberNavController
 import com.google.android.gms.maps.model.CameraPosition
 import com.google.android.gms.maps.model.LatLng
 import com.google.maps.android.compose.*
+import com.moseswn.kurahubke.navigation.ROUT_NOTICES
 
 import kotlinx.coroutines.delay
 import kotlin.math.*
@@ -57,7 +58,7 @@ object IEBCMockApi {
 /* ---------------- DISTANCE ---------------- */
 
 fun distanceKm(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
-    val R = 6371.0
+    val radius = 6371.0
     val dLat = Math.toRadians(lat2 - lat1)
     val dLon = Math.toRadians(lon2 - lon1)
 
@@ -66,7 +67,7 @@ fun distanceKm(lat1: Double, lon1: Double, lat2: Double, lon2: Double): Double {
             cos(Math.toRadians(lat2)) *
             sin(dLon / 2).pow(2.0)
 
-    return 2 * R * atan2(sqrt(a), sqrt(1 - a))
+    return 2 * radius * atan2(sqrt(a), sqrt(1 - a))
 }
 
 /* ---------------- SCREEN ---------------- */
@@ -121,7 +122,7 @@ fun PollingMapScreen(navController: NavController) {
                     color = Color.White.copy(alpha = 0.12f)
                 ) {
                     IconButton(onClick = { navController.navigate(ROUT_NOTICES) }) {
-                        Icon(Icons.Default.ArrowBack, null, tint = Color.White)
+                        Icon(Icons.AutoMirrored.Filled.ArrowBack, null, tint = Color.White)
                     }
                 }
 
@@ -154,7 +155,7 @@ fun PollingMapScreen(navController: NavController) {
 
                 // USER LOCATION
                 Marker(
-                    state = MarkerState(position = userLocation),
+                    state = rememberMarkerState(position = userLocation),
                     title = "You are here",
                     snippet = "Current Location"
                 )
@@ -163,7 +164,7 @@ fun PollingMapScreen(navController: NavController) {
                 filtered.forEach { station ->
 
                     Marker(
-                        state = MarkerState(LatLng(station.lat, station.lng)),
+                        state = rememberMarkerState(position = LatLng(station.lat, station.lng)),
                         title = station.name,
                         snippet = "${station.county} • ${station.code}"
                     )

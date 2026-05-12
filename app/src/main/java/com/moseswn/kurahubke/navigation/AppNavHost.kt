@@ -20,7 +20,7 @@ import com.moseswn.kurahubke.ui.screens.timeline.TimelineScreen
 fun AppNavHost(
     modifier: Modifier = Modifier,
     navController: NavHostController = rememberNavController(),
-    startDestination: String = ROUT_SPLASH
+    startDestination: String =ROUT_HOME
 ) {
     NavHost(
         navController = navController,
