@@ -12,4 +12,5 @@ const val ROUT_FAQS= "faqs"
 const val ROUT_TIMELINE= "timeline"
 const val ROUT_ONBOARDING= "onboarding"
 const val ROUT_NOTICES= "notices"
+const val ROUT_VOTING = "voting"
 

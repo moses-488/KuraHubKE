@@ -10,8 +10,6 @@ import androidx.compose.foundation.clickable
 import androidx.compose.foundation.layout.Arrangement
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
-import androidx.compose.foundation.layout.ExperimentalLayoutApi
-import androidx.compose.foundation.layout.FlowRow
 import androidx.compose.foundation.layout.Row
 import androidx.compose.foundation.layout.Spacer
 import androidx.compose.foundation.layout.fillMaxSize
@@ -66,6 +64,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.moseswn.kurahubke.navigation.ROUT_TIMELINE
+import com.moseswn.kurahubke.navigation.ROUT_VOTING
 import kotlinx.coroutines.launch
 
 // ==========================
@@ -89,7 +88,6 @@ data class QuickAccessItem(
 // HOME SCREEN
 // ==========================
 
-@OptIn(ExperimentalLayoutApi::class)
 @Composable
 fun HomeScreen(
     navController: NavController
@@ -221,10 +219,16 @@ fun HomeScreen(
                             modifier = Modifier.padding(14.dp)
                         ) {
 
-                            Text(
-                                text = "🗳️",
-                                fontSize = 22.sp
-                            )
+                            TextButton(
+                                onClick = {navController.navigate(ROUT_VOTING)}
+                            ){
+                              Text(
+                                  text = "🗳️",
+                                  fontSize = 22.sp
+                              )
+                            }
+
+
                         }
                     }
 
@@ -517,12 +521,10 @@ fun HomeScreen(
 
             Spacer(modifier = Modifier.height(18.dp))
 
-            FlowRow(
-                horizontalArrangement =
-                    Arrangement.spacedBy(14.dp),
-
-                verticalArrangement =
-                    Arrangement.spacedBy(14.dp)
+            // Note: Replaced FlowRow with Column to fix a NoSuchMethodError in the Preview
+            // caused by a binary signature change in Compose 1.7.0.
+            Column(
+                verticalArrangement = Arrangement.spacedBy(14.dp)
             ) {
 
                 quickAccessItems.forEach { item ->
@@ -573,12 +575,10 @@ fun HomeScreen(
             // NAVIGATION BUTTONS
             // ==========================
 
-            FlowRow(
-                horizontalArrangement =
-                    Arrangement.spacedBy(12.dp),
-
-                verticalArrangement =
-                    Arrangement.spacedBy(12.dp)
+            // Note: Replaced FlowRow with Row to fix a NoSuchMethodError in the Preview.
+            Row(
+                modifier = Modifier.fillMaxWidth(),
+                horizontalArrangement = Arrangement.spacedBy(12.dp)
             ) {
 
                 NavigationButton(
@@ -603,6 +603,12 @@ fun HomeScreen(
                     title = "Notices"
                 ) {
                     navController.navigate("notices")
+                }
+
+                NavigationButton(
+                    title = "Vote"
+                ) {
+                    navController.navigate(ROUT_VOTING)
                 }
             }
 

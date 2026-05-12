@@ -6,47 +6,49 @@ import androidx.compose.animation.fadeIn
 import androidx.compose.animation.slideInVertically
 import androidx.compose.foundation.background
 import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.rememberScrollState
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.foundation.text.KeyboardOptions
+import androidx.compose.foundation.verticalScroll
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Email
 import androidx.compose.material.icons.filled.Lock
 import androidx.compose.material.icons.filled.Login
+import androidx.compose.material.icons.filled.Visibility
+import androidx.compose.material.icons.filled.VisibilityOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
-import androidx.compose.ui.draw.clip
 import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.text.font.FontWeight
 import androidx.compose.ui.text.input.KeyboardType
 import androidx.compose.ui.text.input.PasswordVisualTransformation
+import androidx.compose.ui.text.input.VisualTransformation
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.google.firebase.auth.FirebaseAuth
-import com.moseswn.kurahubke.navigation.ROUT_FAQS
+import com.moseswn.kurahubke.navigation.ROUT_HOME
+import com.moseswn.kurahubke.navigation.ROUT_SIGNUP
 import kotlinx.coroutines.delay
 
 @Composable
 fun LoginScreen(
     navController: NavController
 ) {
-
     val context = LocalContext.current
+    var email by remember { mutableStateOf("") }
+    var password by remember { mutableStateOf("") }
+    var isLoading by remember { mutableStateOf(false) }
+    var passwordVisible by remember { mutableStateOf(false) }
 
-    val email = remember { mutableStateOf("") }
-    val password = remember { mutableStateOf("") }
-    val isLoading = remember { mutableStateOf(false) }
-
-    var startAnimation by remember {
-        mutableStateOf(false)
-    }
+    var startAnimation by remember { mutableStateOf(false) }
 
     LaunchedEffect(Unit) {
         delay(200)
@@ -60,334 +62,173 @@ fun LoginScreen(
                 Brush.verticalGradient(
                     colors = listOf(
                         Color(0xFF000000),
-                        Color(0xFFB71C1C),
-                        Color(0xFF1B5E20)
+                        Color(0xFF8B0000), // Darker Red for enterprise look
+                        Color(0xFF1B5E20)  // Darker Green
                     )
                 )
             )
     ) {
-
         Column(
             modifier = Modifier
                 .fillMaxSize()
-                .padding(24.dp),
-
-            verticalArrangement = Arrangement.Center
+                .padding(24.dp)
+                .verticalScroll(rememberScrollState()),
+            verticalArrangement = Arrangement.Center,
+            horizontalAlignment = Alignment.CenterHorizontally
         ) {
-
             AnimatedVisibility(
                 visible = startAnimation,
-                enter = fadeIn() + slideInVertically()
+                enter = fadeIn() + slideInVertically { it / 2 }
             ) {
-
-                Column {
-
-                    // ================= HEADER CARD =================
-
-                    Card(
-                        modifier = Modifier.fillMaxWidth(),
-
-                        shape = RoundedCornerShape(30.dp),
-
-                        colors = CardDefaults.cardColors(
-                            containerColor = Color.White.copy(alpha = 0.10f)
-                        )
+                Column(
+                    horizontalAlignment = Alignment.CenterHorizontally
+                ) {
+                    // ================= HEADER =================
+                    Surface(
+                        shape = CircleShape,
+                        color = Color.White.copy(alpha = 0.15f),
+                        modifier = Modifier.size(100.dp)
                     ) {
-
-                        Column(
-                            modifier = Modifier.padding(24.dp),
-
-                            horizontalAlignment = Alignment.CenterHorizontally
-                        ) {
-
-                            Surface(
-                                shape = CircleShape,
-                                color = Color.White.copy(alpha = 0.12f)
-                            ) {
-
-                                Icon(
-                                    imageVector = Icons.Default.Login,
-                                    contentDescription = null,
-
-                                    tint = Color.White,
-
-                                    modifier = Modifier
-                                        .padding(18.dp)
-                                        .size(36.dp)
-                                )
-                            }
-
-                            Spacer(modifier = Modifier.height(20.dp))
-
-                            Text(
-                                text = "Welcome Back",
-
-                                fontSize = 32.sp,
-
-                                fontWeight = FontWeight.ExtraBold,
-
-                                color = Color.White
-                            )
-
-                            Spacer(modifier = Modifier.height(10.dp))
-
-                            Text(
-                                text = "Login to continue accessing trusted civic information.",
-
-                                fontSize = 15.sp,
-
-                                color = Color.White.copy(alpha = 0.82f)
+                        Box(contentAlignment = Alignment.Center) {
+                            Icon(
+                                imageVector = Icons.Default.Login,
+                                contentDescription = null,
+                                tint = Color.White,
+                                modifier = Modifier.size(48.dp)
                             )
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(28.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
+
+                    Text(
+                        text = "Welcome Back",
+                        fontSize = 32.sp,
+                        fontWeight = FontWeight.Bold,
+                        color = Color.White
+                    )
+
+                    Text(
+                        text = "Access trusted civic information securely",
+                        fontSize = 14.sp,
+                        color = Color.White.copy(alpha = 0.7f),
+                        modifier = Modifier.padding(top = 8.dp)
+                    )
+
+                    Spacer(modifier = Modifier.height(48.dp))
 
                     // ================= EMAIL =================
-
                     OutlinedTextField(
-                        value = email.value,
-
-                        onValueChange = {
-                            email.value = it
-                        },
-
+                        value = email,
+                        onValueChange = { email = it },
                         modifier = Modifier.fillMaxWidth(),
-
-                        label = {
-                            Text("Email Address")
-                        },
-
+                        label = { Text("Email Address") },
                         leadingIcon = {
-
-                            Icon(
-                                imageVector = Icons.Default.Email,
-                                contentDescription = null,
-                                tint = Color.White
-                            )
+                            Icon(Icons.Default.Email, contentDescription = null)
                         },
-
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Email
-                        ),
-
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Email),
                         singleLine = true,
-
-                        shape = RoundedCornerShape(20.dp),
-
-                        colors = authTextFieldColors()
+                        shape = RoundedCornerShape(16.dp),
+                        colors = modernTextFieldColors()
                     )
 
-                    Spacer(modifier = Modifier.height(18.dp))
+                    Spacer(modifier = Modifier.height(16.dp))
 
                     // ================= PASSWORD =================
-
                     OutlinedTextField(
-                        value = password.value,
-
-                        onValueChange = {
-                            password.value = it
-                        },
-
+                        value = password,
+                        onValueChange = { password = it },
                         modifier = Modifier.fillMaxWidth(),
-
-                        label = {
-                            Text("Password")
-                        },
-
+                        label = { Text("Password") },
                         leadingIcon = {
-
-                            Icon(
-                                imageVector = Icons.Default.Lock,
-                                contentDescription = null,
-                                tint = Color.White
-                            )
+                            Icon(Icons.Default.Lock, contentDescription = null)
                         },
-
-                        keyboardOptions = KeyboardOptions(
-                            keyboardType = KeyboardType.Password
-                        ),
-
-                        visualTransformation =
-                            PasswordVisualTransformation(),
-
+                        trailingIcon = {
+                            IconButton(onClick = { passwordVisible = !passwordVisible }) {
+                                Icon(
+                                    imageVector = if (passwordVisible) Icons.Default.Visibility else Icons.Default.VisibilityOff,
+                                    contentDescription = if (passwordVisible) "Hide password" else "Show password"
+                                )
+                            }
+                        },
+                        visualTransformation = if (passwordVisible) VisualTransformation.None else PasswordVisualTransformation(),
+                        keyboardOptions = KeyboardOptions(keyboardType = KeyboardType.Password),
                         singleLine = true,
-
-                        shape = RoundedCornerShape(20.dp),
-
-                        colors = authTextFieldColors()
+                        shape = RoundedCornerShape(16.dp),
+                        colors = modernTextFieldColors()
                     )
 
-                    Spacer(modifier = Modifier.height(10.dp))
-
-                    // ================= FORGOT PASSWORD =================
+                    Spacer(modifier = Modifier.height(8.dp))
 
                     TextButton(
-                        onClick = {
-                            // TODO: Forgot password logic
-                        },
-
+                        onClick = { /* TODO: Implement Forgot Password */ },
                         modifier = Modifier.align(Alignment.End)
                     ) {
-
-                        Text(
-                            text = "Forgot Password?",
-                            color = Color.White,
-                            fontWeight = FontWeight.SemiBold
-                        )
+                        Text("Forgot Password?", color = Color.White, fontSize = 14.sp)
                     }
 
-                    Spacer(modifier = Modifier.height(22.dp))
+                    Spacer(modifier = Modifier.height(32.dp))
 
                     // ================= LOGIN BUTTON =================
-
                     Button(
                         onClick = {
-
-                            if (
-                                email.value.isBlank() ||
-                                password.value.isBlank()
-                            ) {
-
-                                Toast.makeText(
-                                    context,
-                                    "Fill all fields",
-                                    Toast.LENGTH_SHORT
-                                ).show()
-
+                            if (email.isBlank() || password.isBlank()) {
+                                Toast.makeText(context, "Please fill in all fields", Toast.LENGTH_SHORT).show()
                                 return@Button
                             }
 
-                            isLoading.value = true
-
-                            val auth =
-                                FirebaseAuth.getInstance()
-
-                            auth.signInWithEmailAndPassword(
-                                email.value,
-                                password.value
-                            ).addOnCompleteListener { task ->
-
-                                isLoading.value = false
-
-                                if (task.isSuccessful) {
-
-                                    Toast.makeText(
-                                        context,
-                                        "Login successful",
-                                        Toast.LENGTH_SHORT
-                                    ).show()
-
-                                    navController.navigate(
-                                        ROUT_FAQS
-                                    ) {
-
-                                        popUpTo("login") {
-                                            inclusive = true
+                            isLoading = true
+                            FirebaseAuth.getInstance().signInWithEmailAndPassword(email, password)
+                                .addOnCompleteListener { task ->
+                                    isLoading = false
+                                    if (task.isSuccessful) {
+                                        Toast.makeText(context, "Welcome to Kura Hub!", Toast.LENGTH_SHORT).show()
+                                        navController.navigate(ROUT_HOME) {
+                                            popUpTo(0) // Clear backstack for security/clean state
                                         }
+                                    } else {
+                                        Toast.makeText(context, task.exception?.message ?: "Login failed", Toast.LENGTH_LONG).show()
                                     }
-
-                                } else {
-
-                                    Toast.makeText(
-                                        context,
-                                        task.exception?.message
-                                            ?: "Login failed",
-
-                                        Toast.LENGTH_SHORT
-                                    ).show()
                                 }
-                            }
                         },
-
                         modifier = Modifier
                             .fillMaxWidth()
-                            .height(60.dp),
-
-                        shape = RoundedCornerShape(22.dp),
-
+                            .height(56.dp),
+                        shape = RoundedCornerShape(16.dp),
                         colors = ButtonDefaults.buttonColors(
-                            containerColor = Color.White
-                        )
+                            containerColor = Color.White,
+                            contentColor = Color(0xFF1B5E20)
+                        ),
+                        elevation = ButtonDefaults.buttonElevation(defaultElevation = 4.dp)
                     ) {
-
-                        if (isLoading.value) {
-
-                            CircularProgressIndicator(
-                                modifier = Modifier.size(24.dp),
-
-                                color = Color(0xFF1B5E20),
-
-                                strokeWidth = 2.dp
-                            )
-
+                        if (isLoading) {
+                            CircularProgressIndicator(modifier = Modifier.size(24.dp), color = Color(0xFF1B5E20))
                         } else {
-
-                            Text(
-                                text = "Login",
-
-                                color = Color(0xFF1B5E20),
-
-                                fontWeight = FontWeight.Bold,
-
-                                fontSize = 17.sp
-                            )
+                            Text("LOGIN", fontWeight = FontWeight.ExtraBold, fontSize = 16.sp)
                         }
                     }
 
-                    Spacer(modifier = Modifier.height(18.dp))
+                    Spacer(modifier = Modifier.height(24.dp))
 
-                    // ================= SIGNUP =================
-
+                    // ================= SIGNUP LINK =================
                     TextButton(
-                        onClick = {
-                            navController.navigate(ROUT_FAQS)
-                        },
-
-                        modifier = Modifier.align(
-                            Alignment.CenterHorizontally
-                        )
+                        onClick = { navController.navigate(ROUT_SIGNUP) }
                     ) {
-
-                        Text(
-                            text =
-                                "Don't have an account? Create Account",
-
-                            color = Color.White,
-
-                            fontWeight = FontWeight.SemiBold
-                        )
+                        Row(verticalAlignment = Alignment.CenterVertically) {
+                            Text("New to Kura Hub?", color = Color.White.copy(alpha = 0.8f))
+                            Spacer(modifier = Modifier.width(4.dp))
+                            Text("Create Account", color = Color.White, fontWeight = FontWeight.Bold)
+                        }
                     }
 
-                    Spacer(modifier = Modifier.height(26.dp))
+                    Spacer(modifier = Modifier.height(48.dp))
 
                     // ================= FOOTER =================
-
-                    Column(
-                        modifier = Modifier.fillMaxWidth(),
-
-                        horizontalAlignment =
-                            Alignment.CenterHorizontally
-                    ) {
-
-                        Text(
-                            text = "Neutral Civic Information Only",
-
-                            color = Color.White.copy(alpha = 0.75f),
-
-                            fontSize = 12.sp
-                        )
-
-                        Spacer(modifier = Modifier.height(4.dp))
-
-                        Text(
-                            text = "Powered by Official Kenyan Civic Sources",
-
-                            color = Color.White.copy(alpha = 0.55f),
-
-                            fontSize = 11.sp
-                        )
-                    }
+                    Text(
+                        text = "Neutral Civic Information Platform",
+                        color = Color.White.copy(alpha = 0.5f),
+                        fontSize = 11.sp
+                    )
                 }
             }
         }
@@ -395,36 +236,22 @@ fun LoginScreen(
 }
 
 @Composable
-fun authTextFieldColors() = OutlinedTextFieldDefaults.colors(
-
+fun modernTextFieldColors() = OutlinedTextFieldDefaults.colors(
     focusedTextColor = Color.White,
-
     unfocusedTextColor = Color.White,
-
     focusedBorderColor = Color.White,
-
-    unfocusedBorderColor =
-        Color.White.copy(alpha = 0.45f),
-
+    unfocusedBorderColor = Color.White.copy(alpha = 0.5f),
     focusedLabelColor = Color.White,
-
-    unfocusedLabelColor =
-        Color.White.copy(alpha = 0.7f),
-
+    unfocusedLabelColor = Color.White.copy(alpha = 0.7f),
     cursorColor = Color.White,
-
     focusedLeadingIconColor = Color.White,
-
-    unfocusedLeadingIconColor =
-        Color.White.copy(alpha = 0.7f)
+    unfocusedLeadingIconColor = Color.White.copy(alpha = 0.7f),
+    focusedTrailingIconColor = Color.White,
+    unfocusedTrailingIconColor = Color.White.copy(alpha = 0.7f)
 )
-
 
 @Preview(showBackground = true)
 @Composable
-fun LoginScreenPreview() {
-
-    LoginScreen(
-        rememberNavController()
-    )
+fun LoginScreenModernPreview() {
+    LoginScreen(rememberNavController())
 }

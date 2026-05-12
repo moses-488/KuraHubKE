@@ -51,6 +51,7 @@ import androidx.compose.ui.unit.sp
 import androidx.navigation.NavController
 import androidx.navigation.compose.rememberNavController
 import com.moseswn.kurahubke.R
+import com.moseswn.kurahubke.navigation.ROUT_LOGIN
 import com.moseswn.kurahubke.navigation.ROUT_SIGNUP
 import kotlinx.coroutines.delay
 
@@ -252,7 +253,7 @@ fun OnboardingScreen(
 
                 OutlinedButton(
                     onClick = {
-                        navController.navigate(ROUT_SIGNUP)
+                        navController.navigate(ROUT_LOGIN)
                     },
 
                     modifier = Modifier
